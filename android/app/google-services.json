@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "252039691595",
+    "project_id": "ksmobile-48697",
+    "storage_bucket": "ksmobile-48697.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:252039691595:android:583f0b9cc4d0b7cfb47cce",
+        "android_client_info": {
+          "package_name": "com.ksmobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "252039691595-af8msifope45ulcbdpq6vin4ls96e2ei.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAgsm1zSY_-JB9i1KL3twIJaoO0mqJzXQw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "252039691595-af8msifope45ulcbdpq6vin4ls96e2ei.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
