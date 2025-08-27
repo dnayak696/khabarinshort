@@ -179,7 +179,7 @@ export default function HomeScreen({
 //   );
 // }
 const styles = StyleSheet.create({
-  pager: { flex: 1, backgroundColor: '#fff' },
+  pager: { flex: 1, backgroundColor: '#fff', padding: 20 },
   page: { flex: 1, backgroundColor: '#fff' },
   counter: { fontSize: 14, color: '#888', margin: 8, textAlign: 'right' },
   image: { width: '100%', height: 250, backgroundColor: '#eee' },
