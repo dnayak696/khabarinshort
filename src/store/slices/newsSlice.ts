@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { fetchLatestNews } from '../../services/newsApi';
 
-interface NewsItem {
+export interface NewsItem {
   id: string;
   title: string;
   content: string;
@@ -13,7 +13,7 @@ interface NewsItem {
   postedAt: string;
 }
 
-interface NewsState {
+export interface NewsState {
   articles: NewsItem[];
   loading: boolean;
   error: any;
@@ -48,21 +48,36 @@ const newsSlice = createSlice({
       state.articles = action.payload;
     },
     addNewsItem(state, action: PayloadAction<NewsItem>) {
-      state.articles.push(action.payload);
+      state.articles= [action.payload];
     },
     clearNews(state) {
       state.articles = [];
-    },
+    }
   },
    extraReducers: builder => {
     builder
       .addCase(getLatestNews.pending, state => {
-        state.loading = true;
+        if  (state.articles.length > 0) {
+         state.loading = false;
+        }else{
+          state.loading = true;
+        }
         state.error = null;
       })
       .addCase(getLatestNews.fulfilled, (state, action) => {
         state.loading = false;
-        state.articles = action.payload;
+
+        console.log('notification news: ===>', state.articles[0]);
+        if(state.articles.length == 1) {
+          // filter the Itemm list 
+        const newArticles = action.payload.filter((data: NewsItem) => data.id !== state.articles[0].id);
+        state.articles = [...state.articles, ...newArticles];
+
+        console.log('new news List: ===>', state.articles);
+        }else {
+          console.log('news List completely updated');
+          state.articles = action.payload;
+        }
       })
       .addCase(getLatestNews.rejected, (state, action) => {
         state.loading = false;

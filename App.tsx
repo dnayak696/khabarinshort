@@ -4,7 +4,8 @@
  *
  * @format
  */
-import { Provider } from 'react-redux';
+import React from 'react';
+import { Provider, useDispatch } from 'react-redux';
 import {
   Platform,
   StatusBar,
@@ -12,20 +13,31 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
+import BootSplash from 'react-native-bootsplash';
 import {
   SafeAreaProvider,
   useSafeAreaInsets,
 } from 'react-native-safe-area-context';
-import { NavigationContainer } from '@react-navigation/native';
+import {
+  NavigationContainer,
+  NavigationContainerRef,
+  ParamListBase,
+} from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import messaging from '@react-native-firebase/messaging';
 
-import { store } from './src/store';
+import { AppDispatch, store } from './src/store';
 import HomeScreen from './src/Screens/HomeScreeen';
 import { useEffect } from 'react';
 import {
   requestNotificationPermissionAndroid,
   subscribeToAllDevices,
 } from './src/services/notification/firebaseNotification';
+import { navigationRef } from './src/services/NavigationService';
+import NotificationHandler from './src/services/notification/notificationHandler';
+import BrowserScreen from './src/Screens/BrowserScreen';
+import Info from './src/Components/Info';
+import MenuScreen from './src/Screens/MenuScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -33,18 +45,21 @@ function App() {
   const isDarkMode = useColorScheme() === 'dark';
 
   useEffect(() => {
-    // Request notification permissions on app start
+    // Request notification permissions on app star
     async function initializeNotifications() {
+      await BootSplash.hide({ fade: true });
       await requestNotificationPermissionAndroid();
       await subscribeToAllDevices();
     }
     initializeNotifications();
+    NotificationHandler();
   }, []);
 
   return (
     <Provider store={store}>
       <SafeAreaProvider>
-        <NavigationContainer>
+        <StatusBar animated={true} backgroundColor="#61dafb" />
+        <NavigationContainer ref={navigationRef}>
           <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
           <Stack.Navigator>
             <Stack.Screen
@@ -52,6 +67,37 @@ function App() {
               component={HomeScreen}
               options={{ headerShown: false }}
             />
+            <Stack.Screen
+              name="Browser"
+              options={{
+                headerShown: true,
+                headerLargeTitleShadowVisible: true,
+                headerStyle: {
+                  backgroundColor: '#49cade',
+                },
+                headerTintColor: '#fff',
+                headerTitleStyle: {
+                  fontWeight: 'bold',
+                },
+              }}
+              component={BrowserScreen}
+            />
+            <Stack.Screen
+              name="Info"
+              component={Info}
+              options={{
+                headerShown: true,
+                headerLargeTitleShadowVisible: true,
+                headerStyle: {
+                  backgroundColor: '#49cade',
+                },
+                headerTintColor: '#fff',
+                headerTitleStyle: {
+                  fontWeight: 'bold',
+                },
+              }}
+            />
+            <Stack.Screen name="Menu" component={MenuScreen} />
             {/* Add more screens here */}
           </Stack.Navigator>
         </NavigationContainer>

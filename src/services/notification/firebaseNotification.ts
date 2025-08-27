@@ -37,7 +37,7 @@ export async function requestUserPermission() {
 export const subscribeToAllDevices = async () => {
   try {
     await messaging().subscribeToTopic('all');
-    console.log('✅ Subscribed to topic: allDevice');
+    console.log('✅ Subscribed to topic: all');
   } catch (error) {
     console.error('❌ Failed to subscribe to topic allDevice:', error);
   }
