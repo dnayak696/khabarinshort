@@ -11,12 +11,14 @@ import { navigate, navigationRef } from '../NavigationService';
 // import { useNavigation } from '@react-navigation/native';
 // import { useEffect } from 'react';
 
-export default async function NotificationHandler() {
+export async function NotificationHandler() {
   messaging().onNotificationOpenedApp(async remoteMessage => {
     console.log('📩 Notification received in foreground:', remoteMessage);
     navigateToNews(remoteMessage.data);
   });
+}
 
+export function handleBackgroundMessage() {
   messaging()
     .getInitialNotification()
     .then(remoteMessage => {
@@ -35,5 +37,11 @@ export default async function NotificationHandler() {
 function navigateToNews(data: any) {
   // store.dispatch(clearNews());
   // store.dispatch(addNewsItem(data as NewsItem));
-  navigate('Home', { notification: data });
+  if (navigationRef.isReady()) {
+    navigationRef.navigate('Home', { notification: data });
+  } else {
+    setTimeout(() => {
+      navigationRef.navigate('Home', { notification: data });
+    }, 500);
+  }
 }

@@ -1,4 +1,4 @@
-import { NavigationContainer, NavigationContainerRef } from '@react-navigation/native';
+import { NavigationContainer, NavigationContainerRef, createNavigationContainerRef } from '@react-navigation/native';
 import React from 'react';
 
 export type NavigationParams = {
@@ -6,8 +6,8 @@ export type NavigationParams = {
   Browser: { url: string; title: string };
   Menu: undefined;  
 }
-export const navigationRef = React.createRef<NavigationContainerRef<NavigationParams>>();
+export const navigationRef = createNavigationContainerRef<NavigationContainerRef<NavigationParams>>();
 
 export function navigate(name: string, params?: any) {
-  navigationRef.current?.navigate(name as any, params as any);
+  navigationRef.navigate(name as any, params as any);
 }

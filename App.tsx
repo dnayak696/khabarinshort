@@ -34,7 +34,10 @@ import {
   subscribeToAllDevices,
 } from './src/services/notification/firebaseNotification';
 import { navigationRef } from './src/services/NavigationService';
-import NotificationHandler from './src/services/notification/notificationHandler';
+import {
+  NotificationHandler,
+  handleBackgroundMessage,
+} from './src/services/notification/notificationHandler';
 import BrowserScreen from './src/Screens/BrowserScreen';
 import Info from './src/Components/Info';
 import MenuScreen from './src/Screens/MenuScreen';
@@ -58,8 +61,13 @@ function App() {
   return (
     <Provider store={store}>
       <SafeAreaProvider>
-        <StatusBar animated={true} backgroundColor="#61dafb" />
-        <NavigationContainer ref={navigationRef}>
+        <StatusBar animated={true} backgroundColor="#c5f4efff" />
+        <NavigationContainer
+          ref={navigationRef}
+          onReady={() => {
+            handleBackgroundMessage();
+          }}
+        >
           <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
           <Stack.Navigator>
             <Stack.Screen
