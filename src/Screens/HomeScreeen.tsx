@@ -27,16 +27,14 @@ export default function HomeScreen({
     (state: RootState) => state.news,
   );
 
-  const [initiaLoading, setInitialLoading] = useState(true);
-
   const [pageIndex, setPageIndex] = useState(0);
   // Preload images + pages
 
-  // useEffect(() => {
-  //   if (!notificationData) {
-  //     dispatch(getLatestNews());
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (!notificationData) {
+      dispatch(getLatestNews());
+    }
+  }, []);
 
   useEffect(() => {
     if (notificationData) {
@@ -44,16 +42,8 @@ export default function HomeScreen({
       dispatch(clearNews());
       dispatch(addNewsItem(notificationData as NewsItem));
       dispatch(getLatestNews());
-    } else {
-      dispatch(getLatestNews());
     }
   }, [notificationData]);
-
-  useEffect(() => {
-    if (!loading) {
-      setInitialLoading(false);
-    }
-  }, [loading]);
 
   // useEffect(() => {
   //   const preload = async () => {
@@ -150,21 +140,14 @@ export default function HomeScreen({
         )}
       </PagerView>
 
-      <FAB
-        style={styles.fab}
-        size="small"
-        icon={'apps'}
-        onPress={() => navigation.push('Menu')}
-      />
-
-      {/* {loading ? (
-              <FAB
-                style={styles.fab2}
-                size={'small'}
-                loading={true}
-                onPress={() => console.log('Pressed')}
-              />
-            ) : null} */}
+      {articles.length > 0 ? (
+        <FAB
+          style={styles.fab}
+          size="small"
+          icon={'apps'}
+          onPress={() => navigation.push('Menu')}
+        />
+      ) : null}
     </SafeAreaProvider>
   );
 }
